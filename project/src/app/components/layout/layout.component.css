@@ -1,0 +1,23 @@
+.app-layout {
+  display: flex;
+  height: 100vh;
+  background: #f8f9fa;
+}
+
+.app-layout.rtl {
+  direction: rtl;
+}
+
+.main-content {
+  flex: 1;
+  margin-right: 250px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-right: 0;
+  }
+}
