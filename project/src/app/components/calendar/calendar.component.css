@@ -62,6 +62,9 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  height: calc(100vh - 200px); /* גובה המסך פחות מרווח עליון/תחתון אם צריך */
+  overflow-y: auto;
 }
 
 .time-column {
@@ -71,6 +74,9 @@
 .time-header {
   height: 60px;
   background: #667eea;
+  position: sticky;
+  top: 0;
+  z-index: 10; /* כדי שתמיד יהיה מעל תוכן הגלילה */
 }
 
 .time-slot {
@@ -97,6 +103,10 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
+  flex-shrink: 0; /* מונע את כיווץ הכותרת */
+  position: sticky;
+  top: 0;
+  z-index: 10; /* כדי שתמיד יהיה מעל תוכן הגלילה */
 }
 
 .day-name {
@@ -109,9 +119,12 @@
 }
 
 .day-appointments {
-  position: relative;
-  height: 960px; /* 16 hours * 60px */
+  height: 960px; /* 16 hours * 60px */ 
+  flex: 1; /* לוקח את כל השטח שנותר */
+  overflow-y: auto; /* מאפשר גלילה אנכית */
+  position: relative; /* עדיין נדרש בשביל מיקום appointments */
 }
+
 
 .appointment {
   position: absolute;
