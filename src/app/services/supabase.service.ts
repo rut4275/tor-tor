@@ -81,7 +81,34 @@ export class SupabaseService {
       .eq('user_id', userId)
       .order('name');
   }
-
+  async createClient(client: any) {
+    return await SupabaseService.supabase
+      .from('clients')
+      .insert(client);
+  }
+  async updateClient(id: number, updates: any) {
+    return await SupabaseService.supabase
+      .from('clients')
+      .update(updates)
+      .eq('id', id);
+  }
+  async deleteClient(id: number) {
+    return await SupabaseService.supabase
+      .from('clients')
+      .delete()
+      .eq('id', id);
+  }
+  async getClientAppointments(clientId: number) {
+    return await SupabaseService.supabase
+      .from('appointments')
+      .select(`
+        *,
+        treatments(name, price)
+      `)
+      .eq('client_id', clientId)
+      .order('date', { ascending: false })
+      .order('start_time', { ascending: false });
+  }
   async getCurrentUser() {
     const { data: { user } } = await SupabaseService.supabase.auth.getUser();
     if (user) {
