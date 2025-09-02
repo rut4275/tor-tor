@@ -217,7 +217,16 @@ interface Appointment {
             <div class="client-main-info">
               <h2>{{ selectedClient.name }}</h2>
               <p class="phone">📞 {{ selectedClient.phone }}</p>
-              <p class="email" *ngIf="selectedClient.email">✉️ {{ selectedClient.email }}</p>
+              <div class="email-section" *ngIf="selectedClient.email">
+                <span class="email-text">✉️ {{ selectedClient.email }}</span>
+                <button 
+                  class="email-btn"
+                  (click)="sendEmail(selectedClient.email!)"
+                  title="שלח מייל"
+                >
+                  📧
+                </button>
+              </div>
               <p class="joined">הצטרף: {{ formatDate(selectedClient.joined_date) }}</p>
             </div>
           </div>
@@ -228,12 +237,12 @@ interface Appointment {
               <div class="stat-label">סה"כ תורים</div>
             </div>
             <div class="stat-card">
-              <div class="stat-number">{{ getTotalSpent() | currency:'ILS':'symbol':'1.0-0' }}</div>
-              <div class="stat-label">סה"כ הוצאות</div>
+              <div class="stat-number">{{ getNextAppointment() }}</div>
+              <div class="stat-label">תור קרוב</div>
             </div>
             <div class="stat-card">
               <div class="stat-number">{{ getLastVisit() }}</div>
-              <div class="stat-label">ביקור אחרון</div>
+              <div class="stat-label">תור אחרון</div>
             </div>
           </div>
 
@@ -253,10 +262,12 @@ interface Appointment {
               <div 
                 *ngFor="let appointment of clientAppointments" 
                 class="appointment-item"
+                [class.future-appointment]="isFutureAppointment(appointment.date,appointment.start_time,appointment.end_time)"
+                [class.current-appointment]="isCurrentAppointment(appointment.date,appointment.start_time,appointment.end_time)"
               >
                 <div class="appointment-date">
                   <div class="date">{{ formatDate(appointment.date) }}</div>
-                  <div class="time">{{ appointment.start_time }} - {{ appointment.end_time }}</div>
+                  <div class="time">{{ formatTime(appointment.end_time) }} - {{ formatTime(appointment.start_time) }}</div>
                 </div>
                 
                 <div class="appointment-details">
@@ -430,16 +441,80 @@ export class ClientsComponent implements OnInit {
     }
   }
 
+  formatTime(time: string): string {
+  // מחזיר רק את השעות והדקות מתוך פורמט "HH:mm:ss"
+  return time ? time.slice(0, 5) : '';
+}
   getTotalSpent(): number {
     return this.clientAppointments.reduce((total, apt) => total + (apt.actual_cost || 0), 0);
   }
 
+  getNextAppointment(): string {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const futureAppointments = this.clientAppointments
+      .filter(apt => new Date(apt.date) >= today)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    
+    if (futureAppointments.length === 0) return 'אין תורים';
+    
+    return this.formatDate(futureAppointments[0].date);
+  }
+
   getLastVisit(): string {
-    if (this.clientAppointments.length === 0) return 'אין ביקורים';
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
     
-    const lastAppointment = this.clientAppointments
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+    const pastAppointments = this.clientAppointments
+      .filter(apt => new Date(apt.date) < today)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     
-    return this.formatDate(lastAppointment.date);
+    if (pastAppointments.length === 0) return 'אין תורים';
+    
+    return this.formatDate(pastAppointments[0].date);
+  }
+
+  isFutureAppointment(dateStr: string,startTime?:string,endTime?:string): boolean {
+    const today = new Date();
+    // today.setHours(0, 0, 0, 0);
+    const appointmentDate = new Date(dateStr);
+    // Set appointmentDate to the start time
+    if (startTime) {
+      const [hours, minutes] = startTime.split(':').map(Number);
+      appointmentDate.setHours(hours, minutes, 0, 0);
+    }
+    
+    return appointmentDate >= today;
+  }
+    
+  isCurrentAppointment(dateStr: string,startTime:string,endTime:string): boolean {
+    if (startTime && endTime) {
+      const [startHour, startMinute] = startTime.split(':').map(Number);
+      const [endHour, endMinute] = endTime.split(':').map(Number);
+
+      const now = new Date();
+      const appointmentDate = new Date(dateStr);
+      const [hours, minutes] = startTime.split(':').map(Number);
+      appointmentDate.setHours(hours, minutes, 0, 0);
+      const isSameDay = appointmentDate.toDateString() === now.toDateString();
+
+      if (isSameDay) {
+        const start = new Date(appointmentDate);
+        start.setHours(startHour, startMinute, 0, 0);
+
+        const end = new Date(appointmentDate);
+        end.setHours(endHour, endMinute, 0, 0);
+
+        if (now >= start && now <= end) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  sendEmail(email: string) {
+    const gmailUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&to=${encodeURIComponent(email)}`;
+    window.open(gmailUrl, '_blank');
   }
 }

@@ -16,7 +16,7 @@
 }
 
 .nav-btn {
-  background: #667eea;
+  background: #ca5184;
   color: white;
   border: none;
   border-radius: 8px;
@@ -27,7 +27,7 @@
 }
 
 .nav-btn:hover {
-  background: #5a6fd8;
+  background: #eb5f99;
   transform: translateY(-1px);
 }
 
@@ -39,7 +39,7 @@
 }
 
 .new-appointment-btn {
-  background: #4caf50;
+  background: #862c51;
   color: white;
   border: none;
   border-radius: 8px;
@@ -50,7 +50,7 @@
 }
 
 .new-appointment-btn:hover {
-  background: #45a049;
+  background: #e674a3;
   transform: translateY(-1px);
 }
 
@@ -73,7 +73,7 @@
 
 .time-header {
   height: 60px;
-  background: #667eea;
+  background: #ca5184;
   position: sticky;
   top: 0;
   z-index: 10; /* כדי שתמיד יהיה מעל תוכן הגלילה */
@@ -96,7 +96,7 @@
 
 .day-header {
   height: 60px;
-  background: #667eea;
+  background: #ca5184;
   color: white;
   display: flex;
   flex-direction: column;
@@ -130,8 +130,8 @@
   position: absolute;
   right: 4px;
   left: 4px;
-  background: linear-gradient(135deg, #4caf50, #45a049);
-  color: white;
+  background: linear-gradient(135deg, #ffffff, #f2b0cb);
+  color: rgb(160, 63, 63);
   border-radius: 6px;
   padding: 0.5rem;
   cursor: pointer;

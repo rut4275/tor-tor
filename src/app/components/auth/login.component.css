@@ -3,7 +3,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+  background: rgb(255, 255, 255);
   direction: rtl;
 }
 
@@ -56,13 +57,13 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #af5e7e;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .login-btn {
   width: 100%;
-  background: #667eea;
+  background: #854c63;
   color: white;
   border: none;
   border-radius: 8px;
@@ -75,7 +76,7 @@
 }
 
 .login-btn:hover:not(:disabled) {
-  background: #5a6fd8;
+  background: #af5e7e;
   transform: translateY(-1px);
 }
 
@@ -90,7 +91,7 @@
 }
 
 .register-link a {
-  color: #667eea;
+  color: #af5e7e;
   text-decoration: none;
   font-weight: 600;
 }

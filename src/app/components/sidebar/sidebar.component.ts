@@ -19,8 +19,8 @@ import { RouterModule, Router } from '@angular/router';
           routerLinkActive="active"
           class="nav-item"
         >
-          <span class="nav-icon">📅</span>
-          <span>היומן שלי</span>
+          <span class="material-icons">calendar_today</span>
+          <span> היומן שלי</span>
         </a>
         
         <a 
@@ -28,7 +28,7 @@ import { RouterModule, Router } from '@angular/router';
           routerLinkActive="active"
           class="nav-item"
         >
-          <span class="nav-icon">💆‍♀️</span>
+          <span class="material-icons">spa</span>
           <span>טיפולים</span>
         </a>
         
@@ -37,7 +37,7 @@ import { RouterModule, Router } from '@angular/router';
           routerLinkActive="active"
           class="nav-item"
         >
-          <span class="nav-icon">👥</span>
+          <span class="material-icons">group</span>
           <span>לקוחות</span>
         </a>
         
@@ -46,7 +46,7 @@ import { RouterModule, Router } from '@angular/router';
           routerLinkActive="active"
           class="nav-item"
         >
-          <span class="nav-icon">📋</span>
+          <span class="material-icons">rule</span>
           <span>כללים</span>
         </a>
         
@@ -55,7 +55,7 @@ import { RouterModule, Router } from '@angular/router';
           routerLinkActive="active"
           class="nav-item"
         >
-          <span class="nav-icon">⏰</span>
+          <span class="material-icons">schedule</span>
           <span>שעות עבודה</span>
         </a>
         
@@ -64,7 +64,7 @@ import { RouterModule, Router } from '@angular/router';
           routerLinkActive="active"
           class="nav-item"
         >
-          <span class="nav-icon">⚙️</span>
+          <span class="material-icons">settings</span>
           <span>הגדרות</span>
         </a>
       </nav>
