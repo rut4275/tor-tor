@@ -92,7 +92,7 @@ interface Appointment {
           class="add-first-client-btn"
           (click)="openNewClientModal()"
         >
-          הוסף לקוח ראשון
+          הוסף לקוח חדש
         </button>
       </div>
     </div>
