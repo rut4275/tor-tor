@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../services/supabase.service';
@@ -31,8 +31,10 @@ interface Treatment {
           + טיפול חדש
         </button>
       </div>
+    
 
       <div class="search-section">
+      <div class="search-section" [class.scrolled]="isScrolled">
         <div class="search-box">
           <input 
             type="text" 
@@ -43,6 +45,13 @@ interface Treatment {
           >
           <i class="material-icons search-icon">search</i>
         </div>
+        
+        <button 
+          class="compact-add-btn"
+          (click)="openNewTreatmentModal()"
+        >
+          + טיפול חדש
+        </button>
         
         <div class="filter-stats">
           <span>{{ filteredTreatments.length }} מתוך {{ treatments.length }} טיפולים</span>
@@ -409,6 +418,7 @@ export class TreatmentsComponent implements OnInit {
   treatments: Treatment[] = [];
   filteredTreatments: Treatment[] = [];
   searchTerm = '';
+  isScrolled = false;
   showTreatmentModal = false;
   showTreatmentDetailsModal = false;
   showDeleteConfirmModal = false;
@@ -429,6 +439,11 @@ export class TreatmentsComponent implements OnInit {
   };
 
   constructor(private supabase: SupabaseService) {}
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 100;
+  }
 
   async ngOnInit() {
     await this.loadCurrentUser();

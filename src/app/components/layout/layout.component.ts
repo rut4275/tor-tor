@@ -33,8 +33,10 @@ export class LayoutComponent implements OnInit {
         return;
       }
 
-      // אם זה המשתמש הראשון שנכנס, ניווט ליומן
-      this.router.navigate(['/calendar']);
+      // ניווט ליומן רק אם אנחנו בדף הבית
+      if (this.router.url === '/') {
+        this.router.navigate(['/calendar']);
+      }
     } catch (error) {
       console.error('Error getting session:', error);
       this.router.navigate(['/login']);

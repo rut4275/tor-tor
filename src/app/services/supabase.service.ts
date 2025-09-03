@@ -20,6 +20,10 @@ export class SupabaseService {
     }
   );
 
+  // Cache for current user to prevent multiple requests
+  private static currentUserCache: any = null;
+  private static currentUserPromise: Promise<any> | null = null;
+
   constructor() {}
 
   get client() {
@@ -130,15 +134,49 @@ export class SupabaseService {
       .order('start_time', { ascending: false });
   }
   async getCurrentUser() {
-    const { data: { user } } = await SupabaseService.supabase.auth.getUser();
-    if (user) {
-      const { data } = await SupabaseService.supabase
-        .from('users')
-        .select('*')
-        .eq('auth_id', user.id)
-        .single();
-      return data;
+    // Return cached user if available
+    if (SupabaseService.currentUserCache) {
+      return SupabaseService.currentUserCache;
     }
-    return null;
+
+    // If there's already a request in progress, wait for it
+    if (SupabaseService.currentUserPromise) {
+      return await SupabaseService.currentUserPromise;
+    }
+
+    // Create new request
+    SupabaseService.currentUserPromise = this.fetchCurrentUser();
+    
+    try {
+      const user = await SupabaseService.currentUserPromise;
+      SupabaseService.currentUserCache = user;
+      return user;
+    } finally {
+      SupabaseService.currentUserPromise = null;
+    }
+  }
+
+  private async fetchCurrentUser() {
+    try {
+      const { data: { user } } = await SupabaseService.supabase.auth.getUser();
+      if (user) {
+        const { data } = await SupabaseService.supabase
+          .from('users')
+          .select('*')
+          .eq('auth_id', user.id)
+          .single();
+        return data;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error fetching current user:', error);
+      return null;
+    }
+  }
+
+  // Method to clear cache when user logs out
+  clearUserCache() {
+    SupabaseService.currentUserCache = null;
+    SupabaseService.currentUserPromise = null;
   }
 }

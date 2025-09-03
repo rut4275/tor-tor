@@ -8,7 +8,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .clients-header h1 {
@@ -41,13 +48,32 @@
   background: white;
   border-radius: 16px;
   padding: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  margin-top: -1rem;
+  transition: all 0.3s ease;
+}
+
+.search-section.scrolled {
+  border-radius: 0 0 16px 16px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 0;
 }
 
 .search-box {
   position: relative;
   margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-section.scrolled .search-box {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .search-input {
@@ -58,6 +84,11 @@
   font-size: 1rem;
   transition: all 0.3s ease;
   background: #f8f9fa;
+}
+
+.search-section.scrolled .search-input {
+  width: calc(100% - 140px);
+  padding: 0.75rem 1rem;
 }
 
 .search-input:focus {
@@ -74,6 +105,33 @@
   transform: translateY(-50%);
   font-size: 1.25rem;
   color: #666;
+}
+
+.search-section.scrolled .search-icon {
+  display: none;
+}
+
+.compact-add-btn {
+  background: #94365d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  display: none;
+}
+
+.search-section.scrolled .compact-add-btn {
+  display: block;
+}
+
+.compact-add-btn:hover {
+  background: #f479ac;
+  transform: translateY(-1px);
 }
 
 .filter-stats {

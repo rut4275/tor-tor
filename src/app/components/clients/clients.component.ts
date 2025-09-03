@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../services/supabase.service';
@@ -41,6 +41,7 @@ interface Appointment {
       </div>
 
       <div class="search-section">
+      <div class="search-section" [class.scrolled]="isScrolled">
         <div class="search-box">
           <input 
             type="text" 
@@ -51,6 +52,13 @@ interface Appointment {
           >
           <i class="material-icons search-icon">search</i>
         </div>
+        
+        <button 
+          class="compact-add-btn"
+          (click)="openNewClientModal()"
+        >
+          + לקוח חדש
+        </button>
         
         <div class="filter-stats">
           <span>{{ filteredClients.length }} מתוך {{ clients.length }} לקוחות</span>
@@ -302,6 +310,7 @@ export class ClientsComponent implements OnInit {
   clients: Client[] = [];
   filteredClients: Client[] = [];
   searchTerm = '';
+  isScrolled = false;
   showNewClientModal = false;
   showClientDetailsModal = false;
   selectedClient: Client | null = null;
@@ -318,6 +327,11 @@ export class ClientsComponent implements OnInit {
   };
 
   constructor(private supabase: SupabaseService) {}
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 100;
+  }
 
   async ngOnInit() {
     await this.loadCurrentUser();

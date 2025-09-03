@@ -1,3 +1,584 @@
-.page-container {
+.working-hours-container {
   padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.working-hours-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.working-hours-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.preferences-btn {
+  background: #ca5184;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.preferences-btn:hover {
+  background: #e674a3;
+  transform: translateY(-1px);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: 80px repeat(7, 1fr);
+  gap: 1px;
+  background: #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  height: calc(100vh - 200px); /* גובה המסך פחות מרווח עליון/תחתון אם צריך */
+  overflow-y: auto;
+}
+
+.time-column {
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.time-header {
+  height: 60px;
+  background: #ca5184;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.time-slot {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: #666;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.day-column {
+  background: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.day-header {
+  height: 60px;
+  background: #ca5184;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.day-name {
+  font-size: 1rem;
+}
+
+.add-hours-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.add-hours-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.day-working-hours {
+  flex: 1;
+  min-height: 1080px; /* 18 hours * 60px */
+  position: relative;
+  background: white;
+}
+
+.working-hour-block {
+  position: absolute;
+  right: 4px;
+  left: 4px;
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.75rem;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.working-hour-block:hover {
+  transform: scale(1.02);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.working-hour-time {
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: white;
+}
+
+.working-hour-preference {
+  font-size: 0.7rem;
+  opacity: 0.9;
+  color: white;
+}
+
+/* צבעי העדפות */
+.preference-high {
+  background: linear-gradient(135deg, #ff57a7, #ffffff);
+  box-shadow: 0 2px 8px rgba(27, 94, 32, 0.4);
+}
+
+.preference-medium {
+  background: linear-gradient(135deg, #ff9ccb, #ffffff);
+  box-shadow: 0 2px 8px rgba(230, 81, 0, 0.4);
+}
+
+.preference-low {
+  background: linear-gradient(135deg, #ffc8e2, #ffffff);
+  box-shadow: 0 2px 8px rgba(255, 205, 210, 0.4);
+  color: #333 !important;
+}
+
+.preference-low .working-hour-time,
+.preference-low .working-hour-preference {
+  color: #333 !important;
+}
+
+.preference-default {
+  background: linear-gradient(135deg, #ffc8e2, #ffffff);
+  box-shadow: 0 2px 8px rgba(117, 117, 117, 0.4);
+}
+
+/* מודלים */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.preferences-modal {
+  max-width: 600px;
+}
+
+.delete-modal {
+  max-width: 400px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+  border-radius: 12px 12px 0 0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #8e1538;
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+  transform: scale(1.1);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.working-hours-form {
+  padding: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+  text-align: right;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-align: right;
+}
+
+.readonly-input {
+  background: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #ca5184;
+  box-shadow: 0 0 0 3px rgba(202, 81, 132, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.cancel-btn {
+  background: #f5f5f5;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background: #e0e0e0;
+}
+
+.save-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #45a049;
+  transform: translateY(-1px);
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* מודל העדפות */
+.preferences-content {
+  padding: 1.5rem;
+}
+
+.preferences-list {
+  margin-bottom: 2rem;
+}
+
+.preference-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.preference-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.preference-level {
+  font-weight: 600;
+  color: white;
+}
+
+.preference-color-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.preference-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-preference-btn,
+.delete-preference-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.edit-preference-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.delete-preference-btn:hover {
+  background: rgba(220, 53, 69, 0.8);
+}
+
+.add-preference-section h4 {
+  margin: 0 0 1rem 0;
+  color: #333;
+}
+
+.add-preference-form {
+  display: flex;
+  gap: 1rem;
+}
+
+.preference-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.preference-input:focus {
+  outline: none;
+  border-color: #ca5184;
+  box-shadow: 0 0 0 3px rgba(202, 81, 132, 0.1);
+}
+
+.add-preference-btn {
+  background: #ca5184;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.add-preference-btn:hover:not(:disabled) {
+  background: #e674a3;
+  transform: translateY(-1px);
+}
+
+.add-preference-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* מודל מחיקה */
+.delete-content {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.delete-content p {
+  margin: 0 0 1rem 0;
+  color: #666;
+}
+
+.item-to-delete {
+  background: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 1.1rem;
+}
+
+.warning-text {
+  color: #dc3545;
+  font-weight: 600;
+  margin-bottom: 2rem !important;
+}
+
+.delete-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cancel-delete-btn {
+  background: #f5f5f5;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cancel-delete-btn:hover {
+  background: #e0e0e0;
+}
+
+.confirm-delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.confirm-delete-btn:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}
+
+/* רספונסיביות */
+@media (max-width: 768px) {
+  .working-hours-container {
+    padding: 1rem;
+  }
+  
+  .calendar-grid {
+    grid-template-columns: 60px repeat(7, 1fr);
+  }
+  
+  .time-slot {
+    font-size: 0.75rem;
+  }
+  
+  .working-hour-block {
+    font-size: 0.65rem;
+    padding: 0.25rem;
+  }
+  
+  .day-header {
+    padding: 0 0.5rem;
+  }
+  
+  .working-hours-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
 }
