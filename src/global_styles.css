@@ -30,6 +30,27 @@ button {
 input, select, textarea {
   font-family: inherit;
 }
+.my-icon {
+  vertical-align: middle; /* ליישור יפה */
+  margin-right: 8px; /* מרווח מימין לטקסט */
+  margin-left: 8px; /* מרווח משמאל לטקסט */
+
+}
+
+/* גודל */
+.my-icon.big {
+  font-size: 36px; /* ברירת מחדל היא 24px */
+}
+
+/* צבע */
+.my-icon.red {
+  color: #e53935; /* אדום */
+}
+
+.my-icon.green {
+  color: #43a047; /* ירוק */
+}
+
 
 /* מחלקות עזר */
 .text-center { text-align: center; }

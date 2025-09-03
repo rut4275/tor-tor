@@ -81,6 +81,26 @@ export class SupabaseService {
       .eq('user_id', userId)
       .order('name');
   }
+
+  async createTreatment(treatment: any) {
+    return await SupabaseService.supabase
+      .from('treatments')
+      .insert(treatment);
+  }
+
+  async updateTreatment(id: number, updates: any) {
+    return await SupabaseService.supabase
+      .from('treatments')
+      .update(updates)
+      .eq('id', id);
+  }
+
+  async deleteTreatment(id: number) {
+    return await SupabaseService.supabase
+      .from('treatments')
+      .delete()
+      .eq('id', id);
+  }
   async createClient(client: any) {
     return await SupabaseService.supabase
       .from('clients')

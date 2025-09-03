@@ -3,6 +3,7 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { LoginComponent } from './components/auth/login.component';
 import { ClientsComponent } from './components/clients/clients.component';
+import { TreatmentsComponent } from './components/treatments/treatments.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -11,7 +12,7 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: 'calendar', component: CalendarComponent },
-      { path: 'treatments', component: CalendarComponent }, // TODO: רכיב טיפולים  
+      { path: 'treatments', component: TreatmentsComponent },
       { path: 'clients', component: ClientsComponent },
       { path: 'rules', component: CalendarComponent }, // TODO: רכיב כללים
       { path: 'working-hours', component: CalendarComponent }, // TODO: רכיב שעות עבודה

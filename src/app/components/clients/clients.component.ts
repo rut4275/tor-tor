@@ -49,7 +49,7 @@ interface Appointment {
             placeholder="חיפוש לקוח (שם, טלפון, אימייל)"
             class="search-input"
           >
-          <span class="search-icon">🔍</span>
+          <i class="material-icons search-icon">search</i>
         </div>
         
         <div class="filter-stats">
@@ -84,7 +84,9 @@ interface Appointment {
       </div>
 
       <div *ngIf="filteredClients.length === 0" class="empty-state">
-        <div class="empty-icon">👥</div>
+        <div class="empty-icon">
+          <i class="material-icons">group</i>
+        </div>
         <h3>לא נמצאו לקוחות</h3>
         <p *ngIf="searchTerm">נסה לשנות את מונחי החיפוש</p>
         <p *ngIf="!searchTerm">עדיין לא הוספת לקוחות למערכת</p>
@@ -108,7 +110,7 @@ interface Appointment {
         (click)="$event.stopPropagation()"
       >
         <div class="modal-header">
-          <h3>{{ isEditMode ? 'עריכת לקוח' : 'לקוח חדש' }}</h3>
+          <h3 [class.edit-mode]="isEditMode">{{ isEditMode ? 'עריכת לקוח' : 'לקוח חדש' }}</h3>
           <button 
             class="close-btn"
             (click)="closeNewClientModal()"
@@ -197,8 +199,9 @@ interface Appointment {
             <button 
               class="edit-client-btn"
               (click)="editClient(selectedClient!)"
+              title="עריכה"
             >
-              ✏️ עריכה
+              <i class="material-icons">edit</i> 
             </button>
             <button 
               class="close-btn"
@@ -216,15 +219,24 @@ interface Appointment {
             </div>
             <div class="client-main-info">
               <h2>{{ selectedClient.name }}</h2>
-              <p class="phone">📞 {{ selectedClient.phone }}</p>
+              <div class="contact-info">
+                <p class="phone">
+                  <!-- <i class="material-icons">phone</i> -->
+                  {{ selectedClient.phone }}
+                </p>
+              </div>
               <div class="email-section" *ngIf="selectedClient.email">
-                <span class="email-text">✉️ {{ selectedClient.email }}</span>
+                <span class="email-text">
+                  <!--  <i class="material-icons">email</i> -->
+                  
+                  {{ selectedClient.email }}
+                </span>
                 <button 
                   class="email-btn"
                   (click)="sendEmail(selectedClient.email!)"
                   title="שלח מייל"
                 >
-                  📧
+                  <i class="material-icons">send</i>
                 </button>
               </div>
               <p class="joined">הצטרף: {{ formatDate(selectedClient.joined_date) }}</p>
