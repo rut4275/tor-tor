@@ -179,4 +179,41 @@ export class SupabaseService {
     SupabaseService.currentUserCache = null;
     SupabaseService.currentUserPromise = null;
   }
+
+  // Bot Messages functions
+  async getBotMessages(userId: string) {
+    return await SupabaseService.supabase
+      .from('bot_messages')
+      .select('*')
+      .order('code');
+  }
+
+  async getUserBotMessages(userId: string) {
+    return await SupabaseService.supabase
+      .from('user_bot_messages')
+      .select('*')
+      .eq('user_id', userId);
+  }
+
+  async createUserBotMessage(userBotMessage: any) {
+    return await SupabaseService.supabase
+      .from('user_bot_messages')
+      .insert(userBotMessage);
+      // .eq('user_id'
+    , userBotMessage.user_id);
+  }
+
+  async updateUserBotMessage(id: string, updates: any) {
+    return await SupabaseService.supabase
+      .from('user_bot_messages')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', id);
+  }
+
+  async deleteUserBotMessage(id: string) {
+    return await SupabaseService.supabase
+      .from('user_bot_messages')
+      .delete()
+      .eq('id', id);
+  }
 }

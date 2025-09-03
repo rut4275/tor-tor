@@ -179,76 +179,6 @@ interface Preference {
       </div>
     </div>
 
-    <!-- מודל ניהול העדפות -->
-    <div 
-      *ngIf="showPreferencesModal" 
-      class="modal-overlay"
-      (click)="closePreferencesModal()"
-    >
-      <div 
-        class="modal-content preferences-modal"
-        (click)="$event.stopPropagation()"
-      >
-        <div class="modal-header">
-          <h3>ניהול העדפות</h3>
-          <button 
-            class="close-btn"
-            (click)="closePreferencesModal()"
-          >
-            ×
-          </button>
-        </div>
-        
-        <div class="preferences-content">
-          <div class="preferences-list">
-            <div 
-              *ngFor="let preference of preferences; trackBy: trackPreference"
-              class="preference-item"
-              [class]="getPreferenceClass(preference.id)"
-            >
-              <div class="preference-info">
-                <span class="preference-level">{{ preference.level }}</span>
-                <div class="preference-color-indicator"></div>
-              </div>
-              <div class="preference-actions">
-                <button 
-                  class="edit-preference-btn"
-                  (click)="editPreference(preference)"
-                >
-                  <i class="material-icons">edit</i>
-                </button>
-                <button 
-                  class="delete-preference-btn"
-                  (click)="deletePreference(preference)"
-                >
-                  <i class="material-icons">delete</i>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="add-preference-section">
-            <h4>הוסף העדפה חדשה</h4>
-            <div class="add-preference-form">
-              <input 
-                type="text" 
-                [(ngModel)]="newPreferenceLevel"
-                placeholder="שם רמת העדפה (למשל: גבוהה, בינונית, נמוכה)"
-                class="preference-input"
-              >
-              <button 
-                class="add-preference-btn"
-                (click)="addPreference()"
-                [disabled]="!newPreferenceLevel.trim()"
-              >
-                הוסף
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- מודל אישור מחיקה -->
     <div 
       *ngIf="showDeleteConfirmModal" 
@@ -547,14 +477,14 @@ export class WorkingHoursComponent implements OnInit {
     this.showWorkingHoursModal = false;
   }
 
-  openPreferencesModal() {
-    this.showPreferencesModal = true;
-  }
+  // openPreferencesModal() {
+  //   this.showPreferencesModal = true;
+  // }
 
-  closePreferencesModal() {
-    this.showPreferencesModal = false;
-    this.newPreferenceLevel = '';
-  }
+  // closePreferencesModal() {
+  //   this.showPreferencesModal = false;
+  //   this.newPreferenceLevel = '';
+  // }
 
 
 
@@ -575,7 +505,6 @@ export class WorkingHoursComponent implements OnInit {
         await this.loadWorkingHours();
       }
     } 
-    }
     
     this.closeDeleteConfirmModal();
   }
