@@ -16,6 +16,7 @@ export class SupabaseService {
         autoRefreshToken: true,
         persistSession: true,
         detectSessionInUrl: false,
+        flowType: 'pkce',
       },
     }
   );
@@ -199,8 +200,7 @@ export class SupabaseService {
     return await SupabaseService.supabase
       .from('user_bot_messages')
       .insert(userBotMessage);
-      // .eq('user_id'
-    , userBotMessage.user_id);
+      // .eq('user_id', userBotMessage.user_id);
   }
 
   async updateUserBotMessage(id: string, updates: any) {
@@ -215,5 +215,132 @@ export class SupabaseService {
       .from('user_bot_messages')
       .delete()
       .eq('id', id);
+  }
+
+  // Answer Types functions
+  async getAnswerTypes() {
+    return await SupabaseService.supabase
+      .from('answer_types')
+      .select('*')
+      .order('id');
+  }
+
+  // Client Questions functions
+  async getClientQuestions(userId: string) {
+    return await SupabaseService.supabase
+      .from('client_questions')
+      .select(`
+        *,
+        answer_types(name)
+      `)
+      .eq('user_id', userId)
+      .order('id');
+  }
+
+  async createClientQuestion(question: any) {
+    return await SupabaseService.supabase
+      .from('client_questions')
+      .insert(question);
+  }
+
+  async updateClientQuestion(id: number, updates: any) {
+    return await SupabaseService.supabase
+      .from('client_questions')
+      .update(updates)
+      .eq('id', id);
+  }
+
+  async deleteClientQuestion(id: number) {
+    return await SupabaseService.supabase
+      .from('client_questions')
+      .delete()
+      .eq('id', id);
+  }
+
+  // Appointment Questions functions
+  async getAppointmentQuestions(userId: string) {
+    return await SupabaseService.supabase
+      .from('appointment_questions')
+      .select(`
+        *,
+        answer_types(name)
+      `)
+      .eq('user_id', userId)
+      .order('id');
+  }
+
+  async createAppointmentQuestion(question: any) {
+    return await SupabaseService.supabase
+      .from('appointment_questions')
+      .insert(question);
+  }
+
+  async updateAppointmentQuestion(id: number, updates: any) {
+    return await SupabaseService.supabase
+      .from('appointment_questions')
+      .update(updates)
+      .eq('id', id);
+  }
+
+  async deleteAppointmentQuestion(id: number) {
+    return await SupabaseService.supabase
+      .from('appointment_questions')
+      .delete()
+      .eq('id', id);
+  }
+
+  // Business Info functions
+  async getBusinessInfo(userId: string) {
+    return await SupabaseService.supabase
+      .from('business_info')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+  }
+
+  async createBusinessInfo(businessInfo: any) {
+    return await SupabaseService.supabase
+      .from('business_info')
+      .insert(businessInfo);
+  }
+
+  async updateBusinessInfo(userId: string, updates: any) {
+    return await SupabaseService.supabase
+      .from('business_info')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('user_id', userId);
+  }
+
+  // Calendar Settings functions
+  async getCalendarSettings(userId: string) {
+    return await SupabaseService.supabase
+      .from('calendar_settings')
+      .select(`
+        *,
+        themes(name, primary_color, secondary_color)
+      `)
+      .eq('user_id', userId)
+      .single();
+  }
+
+  async createCalendarSettings(settings: any) {
+    return await SupabaseService.supabase
+      .from('calendar_settings')
+      .insert(settings);
+  }
+
+  async updateCalendarSettings(userId: string, updates: any) {
+    return await SupabaseService.supabase
+      .from('calendar_settings')
+      .update(updates)
+      .eq('user_id', userId);
+  }
+
+  // Themes functions
+  async getThemes() {
+    return await SupabaseService.supabase
+      .from('themes')
+      .select('*')
+      .order('id');
   }
 }

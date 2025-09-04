@@ -68,7 +68,6 @@ CREATE TABLE IF NOT EXISTS clients (
 -- טבלת העדפות
 CREATE TABLE IF NOT EXISTS preferences (
     id SERIAL PRIMARY KEY,
-    user_id uuid REFERENCES users(id),
     level TEXT
 );
 
@@ -76,7 +75,6 @@ CREATE TABLE IF NOT EXISTS preferences (
 CREATE TABLE IF NOT EXISTS weekdays (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    user_id uuid REFERENCES users(id)
 );
 
 -- טבלת שעות עבודה
@@ -120,7 +118,6 @@ CREATE TABLE IF NOT EXISTS treatments (
 -- טבלת סוגי תשובה
 CREATE TABLE IF NOT EXISTS answer_types (
     id SERIAL PRIMARY KEY,
-    user_id uuid REFERENCES users(id),
     name TEXT
 );
 
@@ -129,6 +126,7 @@ CREATE TABLE IF NOT EXISTS client_questions (
     id SERIAL PRIMARY KEY,
     user_id uuid REFERENCES users(id),
     question TEXT,
+    selection_option TEXT,
     answer_type_id INT REFERENCES answer_types(id)
 );
 
@@ -143,7 +141,6 @@ CREATE TABLE IF NOT EXISTS appointment_questions (
 -- טבלת הודעות הבוט
 CREATE TABLE IF NOT EXISTS bot_messages (
     id SERIAL PRIMARY KEY,
-    user_id uuid REFERENCES users(id),
     code INT,
     message TEXT,
     description TEXT
@@ -189,7 +186,6 @@ CREATE TABLE IF NOT EXISTS calendar_settings (
 -- טבלת ערכות נושא
 CREATE TABLE IF NOT EXISTS themes (
     id SERIAL PRIMARY KEY,
-    user_id uuid REFERENCES users(id),
     name TEXT,
     primary_color TEXT DEFAULT '#1976d2',
     secondary_color TEXT DEFAULT '#4caf50'
