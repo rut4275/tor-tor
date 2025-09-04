@@ -11,6 +11,7 @@ import { ClientDetailsComponent } from './components/settings/client-details/cli
 import { AppointmentDetailsComponent } from './components/settings/appointment-details/appointment-details.component';
 import { DisplaySettingsComponent } from './components/settings/display-settings/display-settings.component';
 import { BusinessInfoComponent } from './components/settings/business-info/business-info.component';
+import { RulesComponent} from './components/rules/rules.component'
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -21,7 +22,7 @@ export const routes: Routes = [
       { path: 'calendar', component: CalendarComponent },
       { path: 'treatments', component: TreatmentsComponent },
       { path: 'clients', component: ClientsComponent },
-      { path: 'rules', component: CalendarComponent }, // TODO: רכיב כללים
+      { path: 'rules', component: RulesComponent }, // TODO: רכיב כללים
       { path: 'working-hours', component: WorkingHoursComponent },
       { path: 'settings', component: SettingsComponent },
       { path: 'settings/chat-messages', component: ChatMessagesComponent },

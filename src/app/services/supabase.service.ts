@@ -343,4 +343,44 @@ export class SupabaseService {
       .select('*')
       .order('id');
   }
+
+  // System Rules functions
+  async getSystemRules() {
+    return await SupabaseService.supabase
+      .from('system_rules')
+      .select('*')
+      .order('id');
+  }
+
+  // User Rules functions
+  async getUserRules(userId: string) {
+    return await SupabaseService.supabase
+      .from('user_rules')
+      .select(`
+        *,
+        system_rules(rule_text, description)
+      `)
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+  }
+
+  async createUserRule(rule: any) {
+    return await SupabaseService.supabase
+      .from('user_rules')
+      .insert(rule);
+  }
+
+  async updateUserRule(id: number, updates: any) {
+    return await SupabaseService.supabase
+      .from('user_rules')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', id);
+  }
+
+  async deleteUserRule(id: number) {
+    return await SupabaseService.supabase
+      .from('user_rules')
+      .delete()
+      .eq('id', id);
+  }
 }
