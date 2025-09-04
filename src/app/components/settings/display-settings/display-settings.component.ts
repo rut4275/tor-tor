@@ -19,6 +19,10 @@ interface Theme {
   name: string;
   primary_color: string;
   secondary_color: string;
+  dark_color: string;
+  light_color: string;
+  medium_color: string;
+  background_color: string;
 }
 
 @Component({
@@ -185,6 +189,22 @@ interface Theme {
                 <div 
                   class="color-secondary" 
                   [style.background-color]="theme.secondary_color"
+                ></div>
+                <div 
+                  class="color-dark" 
+                  [style.background-color]="theme.dark_color"
+                ></div>
+                <div 
+                  class="color-medium" 
+                  [style.background-color]="theme.medium_color"
+                ></div>
+                <div 
+                  class="color-light" 
+                  [style.background-color]="theme.light_color"
+                ></div>
+                <div 
+                  class="color-background" 
+                  [style.background-color]="theme.background_color"
                 ></div>
               </div>
               <div class="theme-name">{{ theme.name }}</div>
